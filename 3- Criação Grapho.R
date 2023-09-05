@@ -59,3 +59,9 @@ w <- distinct(w)
 write.graph(rts.g, file="rts.graphml", format="graphml")
 write.csv(rts.df,"rts_df.csv", row.names = FALSE)
 
+
+#exporting Windowns
+write.graph(rts.g, file="C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts.graphml", format="graphml")
+write.csv(rts.df,"C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts_df.csv", row.names = FALSE)
+
+

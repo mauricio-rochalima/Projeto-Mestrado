@@ -25,6 +25,9 @@ write.csv(tweets,"/Users/mauriciofernandes/Downloads/Redes Sociais\\T2.csv", row
 
 # Versão Windows 
 
+path <- "C:\\Users\\Mauricio\\Downloads\\Redes Sociais"
+
+
 tweets <- bind_tweets("C:\\Users\\Mauricio\\Downloads\\Redes Sociais", user = FALSE, verbose = TRUE, output_format = NA) 
 
 
