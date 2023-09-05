@@ -1,6 +1,15 @@
 #Step 2 - Converter arquivos Jstor para csv
 
+# Versão MAC
+
 tweets <- bind_tweets("/Users/mauriciofernandes/Downloads/Redes Sociais", user = FALSE, verbose = TRUE, output_format = NA) 
+
+# Versão Windows 
+
+tweets <- bind_tweets("C:\\Users\\Mauricio\\Downloads\\Redes Sociais", user = FALSE, verbose = TRUE, output_format = NA) 
+
+
+
 
 users <- bind_tweets(data_path = "data/", user = TRUE)
 
