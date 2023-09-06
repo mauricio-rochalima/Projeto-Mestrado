@@ -1,12 +1,6 @@
 
-sources <- phone.call %>% distinct(source) %>% rename(label=source)
 
 sources <- rts.df %>% distinct(rt.sender) %>% rename(label=rt.sender)
-
-
-
-destination <- phone.call %>% distinct(destination) %>% rename(label=destination)
-
 destination <- rts.df %>% distinct(rt.receiver) %>% rename(label=rt.receiver)
 
 
@@ -57,5 +51,12 @@ plot(net.tidy)
 library(ggraph)
 
 write.graph(net.igraph, file="/Users/mauriciofernandes/Downloads/Redes Sociais/rts.graphml", format="graphml")
+
+
+# Cálculo das centralidades
+
+
+
+
 
 
