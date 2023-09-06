@@ -10,14 +10,7 @@ nodes <- full_join(sources, destination,by="label") %>% mutate(id = 1:nrow(nodes
 nodes <- full_join(sources, destination,by="label") %>% mutate(id = 1:nrow(nodes)) %>% select(id,everything())
 
 
-
-edges <- phone.call %>% left_join(nodes, by=c("source" = "label")) %>% rename(from="id")
-
 edges <- rts.df %>% left_join(nodes, by=c("rt.sender" = "label")) %>% rename(from="id")
-
-
-edges <- edges %>% left_join(nodes,by=c("destination" = "label")) %>% rename(to=id)
-
 edges <- edges %>% left_join(nodes,by=c("rt.receiver" = "label")) %>% rename(to=id)
 
 
@@ -50,7 +43,10 @@ plot(net.tidy)
 
 library(ggraph)
 
+# Versão MAC
 write.graph(net.igraph, file="/Users/mauriciofernandes/Downloads/Redes Sociais/rts.graphml", format="graphml")
+
+
 
 
 # Cálculo das centralidades
