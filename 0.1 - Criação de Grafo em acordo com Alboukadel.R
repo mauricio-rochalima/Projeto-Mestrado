@@ -45,8 +45,17 @@ set.seed(123)
 
 plot(net.igraph,edge.arrow.size=.2,layout = layout_with_graphopt)
 
+library(tidygraph)
+
+net.tidy <- tbl_graph(
+  nodes = nodes, edges = edges, directed = TRUE
+)
+
+plot(net.tidy)
 
 
+library(ggraph)
 
+write.graph(net.igraph, file="/Users/mauriciofernandes/Downloads/Redes Sociais/rts.graphml", format="graphml")
 
 
