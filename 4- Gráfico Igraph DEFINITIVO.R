@@ -50,7 +50,7 @@ corte <- mean(degscale)# + .3*sd(degscale)
 degscale.label <- degscale
 
 for (i in 1:last){
-  if(degscale[i]>corte){degscale.label[i] <- 3}else{degscale.label[i]<-0}
+  if(degscale[i]>corte){degscale.label[i] <- 5}else{degscale.label[i]<-2}
 }
 
 
@@ -94,3 +94,21 @@ g<- ggraph(DHHS2, layout = l) +
 # Reset margins for future plots
 #par(op)
 g
+
+
+
+#####################################
+# Gráfico 2
+
+Page_Rank <- degscale
+
+g <- ggraph(DHHS2,  layout = 'lgl') +
+  geom_edge_arc(color="gray", curvature=0.3) +            
+  geom_node_point(color="orange", aes(size = Page_Rank)) +     
+  geom_node_text(aes(label = name), size=3, color="gray50", repel=T) +
+  theme_void()
+
+
+g
+
+
