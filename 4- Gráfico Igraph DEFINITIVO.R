@@ -103,9 +103,13 @@ g
 Page_Rank <- degscale
 
 g <- ggraph(DHHS2,  layout = 'lgl') +
-  geom_edge_arc(color="gray", curvature=0.3) +            
+  geom_edge_arc(color="lightgray", curvature=0.3) +            
   geom_node_point(color="orange", aes(size = Page_Rank)) +     
-  geom_node_text(aes(label = name), size=3, color="gray50", repel=T) +
+  geom_node_text(aes(label = name), size=degscale.label, color="black", repel=T) +
+  
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  scale_size(range = c(0, 20)) + 
+  
   theme_void()
 
 
