@@ -10,7 +10,7 @@ classified_tweets <- tweets %>%
   ))
 
 
-filter(classified_tweets,tweet_category!="tweet")
+tweets <- filter(classified_tweets,tweet_category!="tweet")
 
 
 # Exibe o resultado
