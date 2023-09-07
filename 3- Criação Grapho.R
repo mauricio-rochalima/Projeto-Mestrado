@@ -62,6 +62,164 @@ edges <- select(edges,from,to)
 
 #############################################################################################
 
+
+# Criação do Grafo
+
+library(igraph)
+
+net.igraph <- graph_from_data_frame(
+  
+  d = edges, vertices = nodes, directed = TRUE
+  
+)
+
+
+
+library(tidygraph)
+
+net.tidy <- tbl_graph(
+  nodes = nodes, edges = edges, directed = TRUE
+)
+
+
+# Exportação do Arquivo Graph
+
+
+# Versão MAC
+write.graph(net.igraph, file="/Users/mauriciofernandes/Downloads/Redes Sociais/rts.graphml", format="graphml")
+
+# Versão Windowns
+write.graph(net.igraph, file="C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts.graphml", format="graphml")
+
+
+#############################################################################################
+# Plot 1
+
+net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank()) %>%
+  ggraph(layout = "graphopt") +
+  geom_edge_link(width = 1, colour = "lightgray") +
+  geom_node_point(aes(size = PageRank, colour = PageRank)) +
+  geom_node_text(aes(label = label,size = PageRank), repel = TRUE) +
+  scale_color_gradient(low = "yellow", high = "red") +
+  
+  
+  
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  scale_size(range = c(0, 20)) + 
+  theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
+  
+  
+  theme_graph()
+
+#############################################################################################
+
+# Plot 2
+
+net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank()) %>%
+  
+  
+  ggraph(layout = l) + 
+  labs(title = "#educaçãofinanceira") +
+  geom_edge_arc(alpha=.6,edge_width = 0.01,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
+  #geom_edge_parallel0(edge_colour = "#A8A8A8",
+  #    edge_width = 0.01, edge_alpha = 1, arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) + 
+  
+  
+  geom_node_point(aes(fill = PageRank, size = PageRank),
+                  colour = "#8b0000", shape = 21, stroke = 0.7) + 
+  
+  
+  
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  scale_size(range = c(0, 40)) + 
+  
+  geom_node_text(aes(label = label,size = PageRank), colour = "#000000",repel=TRUE,
+                 family = "serif",fontface = "bold") +
+  
+  theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
+  theme(legend.position = "none")
+
+
+
+#############################################################################################
+
+# Plot 3
+
+# Criação da Tabela com as centralidades
+
+
+net.tidy <- net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank()) %>%
+  mutate(Betweenness = centrality_betweenness()) %>%
+  mutate(Authority = centrality_authority()) %>%
+  mutate(In_Degree = centrality_degree(mode = "in"))
+
+
+net.tidy2 <- as.data.frame(net.tidy)
+
+
+#############################################################################################
+
+
+# Clusters
+
+set.seed(123)
+
+net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank()) %>%
+  mutate(community = as.factor(group_infomap())) %>%
+  ggraph(layout = l) +
+  
+  labs(title = "#educaçãofinanceira") +
+  geom_edge_arc(alpha=.6,edge_width = 0.01,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
+  
+  geom_edge_link(width = 1, colour = "lightgray") +
+  geom_node_point(aes(colour = community,size=PageRank)) +
+  
+  geom_node_text(aes(label = label,size=.3*PageRank), colour = "#000000",repel=FALSE,
+                 family = "serif",fontface = "bold") +
+  scale_size(range = c(0, 40)) + 
+  
+  theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
+  theme(legend.position = "none")
+
+
+
+# Clusters
+
+set.seed(123)
+
+net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank()) %>%
+  mutate(community = as.factor(group_infomap())) %>%
+  ggraph(layout = l) +
+  
+  labs(title = "#educaçãofinanceira") +
+  geom_edge_arc(alpha=.6,edge_width = 0.01,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
+  
+  geom_edge_link(width = 1, colour = "lightgray") +
+  geom_node_point(aes(colour = community,size=PageRank)) +
+  
+  geom_node_text(aes(label = label,size=.3*PageRank), colour = "#000000",repel=FALSE,
+                 family = "serif",fontface = "bold") +
+  scale_size(range = c(0, 40)) + 
+  
+  theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
+  theme(legend.position = "none")
+
+
+
+
+
+#############################################################################################
+
 ### creating the retweetnetwork based on the sender-receiver df and the node attributes (troll/non-troll)
 rts.g <- graph.data.frame(rts.df, directed=T);
 
