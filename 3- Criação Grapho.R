@@ -13,6 +13,7 @@ classified_tweets <- tweets %>%
     TRUE ~ "tweet"                                  # Tweet
   ))
 
+# Excluir da tabela os tweets
 
 tweets <- filter(classified_tweets,tweet_category!="tweet")
 
@@ -41,18 +42,20 @@ rt.receiver[rt.receiver==""] <- "<NA>"
 rts.df <- data.frame(rt.sender, rt.receiver)
 
 #############################################################################################
+# Ajustes nas tabelas para a criação do Grafo
 
-
+# Separar as contas que enviaram mensagem
 sources <- rts.df %>% distinct(rt.sender) %>% rename(label=rt.sender)
+
+# Separar as contas que receberam mensagem
 destination <- rts.df %>% distinct(rt.receiver) %>% rename(label=rt.receiver)
 
 
-
+# Criação da Tabeka de Nós (Atores), incluindo chave primária para identificação dos nós
 nodes <- full_join(sources, destination,by="label") %>% mutate(id = 1:nrow(nodes)) %>% select(id,everything())
 
-nodes <- full_join(sources, destination,by="label") %>% mutate(id = 1:nrow(nodes)) %>% select(id,everything())
 
-
+# Criação da Tabela de Arestas
 edges <- rts.df %>% left_join(nodes, by=c("rt.sender" = "label")) %>% rename(from="id")
 edges <- edges %>% left_join(nodes,by=c("rt.receiver" = "label")) %>% rename(to=id)
 
@@ -160,7 +163,19 @@ net.tidy <- net.tidy %>%
   mutate(In_Degree = centrality_degree(mode = "in"))
 
 
+# Criação da Tabela com os Nós, métricas e informações das contas
 net.tidy2 <- as.data.frame(net.tidy)
+
+
+left_join()
+
+
+users2 <- select(users,username,description)
+followers_count <- as.data.frame(users$public_metrics$followers_count)
+
+users2 <- cbind(users2,followers_count)
+colnames(users2) <- c("username","descrição","N.seguidores")
+
 
 
 #############################################################################################
