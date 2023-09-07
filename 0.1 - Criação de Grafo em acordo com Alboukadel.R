@@ -107,7 +107,7 @@ net.tidy %>%
   scale_fill_gradient(low = "white", high = "steelblue") +
   scale_size(range = c(0, 40)) + 
   
-  geom_node_text(aes(label = label), colour = "#000000", size = degscale.label,repel=TRUE,
+  geom_node_text(aes(label = label,size = PageRank), colour = "#000000",repel=TRUE,
                  family = "serif",fontface = "bold") +
   
   theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
@@ -137,10 +137,52 @@ net.tidy %>%
 
 net.tidy <- net.tidy %>%
   activate(nodes) %>%
-  mutate(PageRank = centrality_pagerank())
+  mutate(PageRank = centrality_pagerank()) %>%
+  mutate(Betweenness = centrality_betweenness()) %>%
+  mutate(Authority = centrality_authority()) %>%
+  mutate(In_Degree = centrality_degree(mode = "in"))
 
 
 net.tidy2 <- as.data.frame(net.tidy)
+
+#########################################################################################
+
+
+# Clusters
+
+set.seed(123)
+
+net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank()) %>%
+    mutate(community = as.factor(group_infomap())) %>%
+  ggraph(layout = l) +
+  
+  labs(title = "#educaçãofinanceira") +
+  geom_edge_arc(alpha=.6,edge_width = 0.01,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
+  
+  geom_edge_link(width = 1, colour = "lightgray") +
+  geom_node_point(aes(colour = community,size=PageRank)) +
+  
+  geom_node_text(aes(label = label,size=.3*PageRank), colour = "#000000",repel=FALSE,
+                 family = "serif",fontface = "bold") +
+  scale_size(range = c(0, 40)) + 
+  
+  theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
+  theme(legend.position = "none")
+ 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
