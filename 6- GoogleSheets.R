@@ -13,7 +13,11 @@ tweets2 <- select(tweets,user_username,user_name,text,sourcetweet_text,retweet_c
 
 
 write_sheet(rts.df,ss= ss,sheet = "Matrix")
+
+
 write_sheet(tweets2,ss= ss,sheet = "tweets")
+
+
 write_sheet(w,ss= ss,sheet = "Metricas")
 
 

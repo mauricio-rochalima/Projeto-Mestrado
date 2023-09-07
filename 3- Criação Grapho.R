@@ -1,7 +1,7 @@
 #library("dplyr") #for data manipulation
 #library("igraph") # for social network analysis
 
-
+tweets0 <- tweets
 
 
 # Classifica os tweets
@@ -150,8 +150,6 @@ net.tidy %>%
 
 #############################################################################################
 
-# Plot 3
-
 # Criação da Tabela com as centralidades
 
 
@@ -167,19 +165,36 @@ net.tidy <- net.tidy %>%
 net.tidy2 <- as.data.frame(net.tidy)
 
 
-left_join()
+# Separação das colunas de interesse da tabela users
+
+tweets0 <- users
+
+tweets0 <- tweets0 %>%
+  mutate(u = ifelse(length(grep("^rt @[a-z0-9_]{1,15}", tolower(text), perl = TRUE)) > 0,
+                    tolower(as.character(username[grep("^rt @[a-z0-9_]{1,15}", tolower(username), perl = TRUE)])),
+                    tweets0$username))
 
 
-users2 <- select(users,username,description)
-followers_count <- as.data.frame(users$public_metrics$followers_count)
+users0 <- users
 
-users2 <- cbind(users2,followers_count)
-colnames(users2) <- c("username","descrição","N.seguidores")
+users0$N.Seguidores <- users0$public_metrics$followers_count
+
+users0 <- select(users0,username,name,description,N.Seguidores)
+users0$username <- tolower(users0$username)
+
+
+colnames(users0) <- c("label","user_name","descrição","N.seguidores")
+
+# Unificação das Tabelas
+
+net.tidy2$label <- tolower(net.tidy2$label)
+
+w <- left_join(net.tidy2,users0,by="label")
 
 
 
 #############################################################################################
-
+# Plot 3
 
 # Clusters
 
