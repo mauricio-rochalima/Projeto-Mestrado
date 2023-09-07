@@ -3,8 +3,24 @@
 
 
 
+
+# Classifica os tweets
+classified_tweets <- tweets %>%
+  mutate(tweet_category = case_when(
+    grepl("^@\\w+", tweets$text) ~ "mention",        # Menção
+    grepl("^RT @\\w+", tweets$text) ~ "retweet",     # Retweet
+    grepl("^@\\w+", tweets$text) ~ "reply",          # Resposta
+    TRUE ~ "tweet"                                  # Tweet
+  ))
+
+
+tweets <- filter(classified_tweets,tweet_category!="tweet")
+
+
+##################################################
+
 #selecting only the retweets
-rts <- grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$text), perl=T, value=T)
+# rts <- grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$text), perl=T, value=T)
 
 
 # extracting handle names for the senders (those who retweet)
@@ -24,10 +40,30 @@ rt.receiver[rt.receiver==""] <- "<NA>"
 ### Creating a data frame from the sender-receiver objects
 rts.df <- data.frame(rt.sender, rt.receiver)
 
+#############################################################################################
+
+
+sources <- rts.df %>% distinct(rt.sender) %>% rename(label=rt.sender)
+destination <- rts.df %>% distinct(rt.receiver) %>% rename(label=rt.receiver)
+
+
+
+nodes <- full_join(sources, destination,by="label") %>% mutate(id = 1:nrow(nodes)) %>% select(id,everything())
+
+nodes <- full_join(sources, destination,by="label") %>% mutate(id = 1:nrow(nodes)) %>% select(id,everything())
+
+
+edges <- rts.df %>% left_join(nodes, by=c("rt.sender" = "label")) %>% rename(from="id")
+edges <- edges %>% left_join(nodes,by=c("rt.receiver" = "label")) %>% rename(to=id)
+
+
+edges <- select(edges,from,to)
+
+
+#############################################################################################
 
 ### creating the retweetnetwork based on the sender-receiver df and the node attributes (troll/non-troll)
 rts.g <- graph.data.frame(rts.df, directed=T);
-
 
 
 ### removing self-ties
@@ -61,7 +97,10 @@ write.csv(rts.df,"rts_df.csv", row.names = FALSE)
 
 
 #exporting Windowns
-write.graph(rts.g, file="C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts.graphml", format="graphml")
+write.graph(rts.f, file="C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts.graphml", format="graphml")
 write.csv(rts.df,"C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts_df.csv", row.names = FALSE)
+
+
+
 
 

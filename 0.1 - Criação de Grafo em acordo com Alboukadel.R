@@ -46,10 +46,48 @@ library(ggraph)
 # Versão MAC
 write.graph(net.igraph, file="/Users/mauriciofernandes/Downloads/Redes Sociais/rts.graphml", format="graphml")
 
+# Versão Windowns
+write.graph(net.igraph, file="C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts.graphml", format="graphml")
+
 
 
 
 # Cálculo das centralidades
+
+set.seed(123)
+
+nodes$PageRank <-
+  net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_degree())
+
+
+################################################################################
+
+
+  
+  net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank()) %>%
+  ggraph(layout = "graphopt") +
+  geom_edge_link(width = 1, colour = "lightgray") +
+  geom_node_point(aes(size = PageRank, colour = PageRank)) +
+  geom_node_text(aes(label = label), repel = TRUE) +
+  scale_color_gradient(low = "yellow", high = "red") +
+  theme_graph()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

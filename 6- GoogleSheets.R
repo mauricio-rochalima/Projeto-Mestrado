@@ -24,3 +24,9 @@ tweets3 <- select(tweets_users,text,created_at)
 write_sheet(tweets3,ss= ss,sheet = "usuario_especifico")
 
 
+# Windowns
+
+
+
+
+
