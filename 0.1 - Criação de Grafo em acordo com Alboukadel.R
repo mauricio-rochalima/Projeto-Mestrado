@@ -72,25 +72,75 @@ nodes$PageRank <-
   ggraph(layout = "graphopt") +
   geom_edge_link(width = 1, colour = "lightgray") +
   geom_node_point(aes(size = PageRank, colour = PageRank)) +
-  geom_node_text(aes(label = label), repel = TRUE) +
+  geom_node_text(aes(label = label,size = PageRank), repel = TRUE) +
   scale_color_gradient(low = "yellow", high = "red") +
+  
+  
+  
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  scale_size(range = c(0, 20)) + 
+  theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
+
+  
   theme_graph()
 
 
+##################################################################
+
+net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank()) %>%
+
+
+ ggraph(layout = l) + 
+  labs(title = "#educaçãofinanceira") +
+  geom_edge_arc(alpha=.6,edge_width = 0.01,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
+  #geom_edge_parallel0(edge_colour = "#A8A8A8",
+                  #    edge_width = 0.01, edge_alpha = 1, arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) + 
+  
+  
+  geom_node_point(aes(fill = PageRank, size = PageRank),
+                  colour = "#8b0000", shape = 21, stroke = 0.7) + 
+  
+ 
+  
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  scale_size(range = c(0, 40)) + 
+  
+  geom_node_text(aes(label = label), colour = "#000000", size = degscale.label,repel=TRUE,
+                 family = "serif",fontface = "bold") +
+  
+  theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
+  theme(legend.position = "none")
 
 
 
 
 
 
+# Escolha layout
+#l="nicely"
+#l="sphere" #um dos melhores
+#l="circlepack"
+#l= "layout fruchterman reingold"
+#l= layout.fruchterman.reingold(rts.g)
+#l= "fr" #melhor opção
+#l="kk"
+#l="circle"
+#l=layout_randomly(rts.g)
+#l="lgl"
 
 
 
 
 
 
+net.tidy <- net.tidy %>%
+  activate(nodes) %>%
+  mutate(PageRank = centrality_pagerank())
 
 
+net.tidy2 <- as.data.frame(net.tidy)
 
 
 
