@@ -34,7 +34,7 @@ tweets <- bind_tweets("C:\\Users\\Mauricio\\Downloads\\Redes Sociais", user = FA
 users <- bind_tweets(data_path = "C:\\Users\\Mauricio\\Downloads\\Redes Sociais", user = TRUE)
 
 
-convert_json("C:\\Users\\Mauricio\\Downloads\\Redes Sociais", output_format = "tidy")
+#convert_json("C:\\Users\\Mauricio\\Downloads\\Redes Sociais", output_format = "tidy")
 
 
 tweets <- bind_tweets(data_path = "C:\\Users\\Mauricio\\Downloads\\Redes Sociais", user = TRUE, output_format = "tidy")

@@ -1,6 +1,61 @@
 #library("dplyr") #for data manipulation
 #library("igraph") # for social network analysis
 
+
+
+###############################################################################################################
+
+# Filtrar tweets com determinadas palavras-chave
+
+tweets <- Ttweets
+
+dados_filtrados <- tweets %>%
+  filter(grepl("financeiro", text, ignore.case = TRUE))
+
+#Ttweets <- tweets
+
+tweets <- dados_filtrados
+
+#tweets <- Ttweets
+
+###############################################################################################################
+
+# Exclusão de Perfis
+
+tweets <- tweets %>% 
+  filter((label != "zehdeabreu"))
+
+
+
+
+
+###################################################
+# Separação das contas com menos de 1k seguidores (Em teste)
+
+Contas_excluidas <- users0 %>%
+  filter(N.seguidores < 1000) %>%
+  select(label, N.seguidores)
+
+colnames(users0)
+
+
+tweets <- tweets %>%
+  anti_join(Contas_excluidas, by = "label")
+
+#######################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
 tweets0 <- tweets
 
 
@@ -17,11 +72,12 @@ classified_tweets <- tweets %>%
 
 tweets <- filter(classified_tweets,tweet_category!="tweet")
 
+tweets$label <- tolower(tweets$user_username)
 
 ##################################################
 
 #selecting only the retweets
-# rts <- grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$text), perl=T, value=T)
+rts <- grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$text), perl=T, value=T)
 
 
 # extracting handle names for the senders (those who retweet)
@@ -51,7 +107,8 @@ sources <- rts.df %>% distinct(rt.sender) %>% rename(label=rt.sender)
 destination <- rts.df %>% distinct(rt.receiver) %>% rename(label=rt.receiver)
 
 
-# Criação da Tabeka de Nós (Atores), incluindo chave primária para identificação dos nós
+# Criação da Tabela de Nós (Atores), incluindo chave primária para identificação dos nós
+nodes <- full_join(sources, destination,by="label")
 nodes <- full_join(sources, destination,by="label") %>% mutate(id = 1:nrow(nodes)) %>% select(id,everything())
 
 
@@ -167,14 +224,7 @@ net.tidy2 <- as.data.frame(net.tidy)
 
 # Separação das colunas de interesse da tabela users
 
-tweets0 <- users
-
-tweets0 <- tweets0 %>%
-  mutate(u = ifelse(length(grep("^rt @[a-z0-9_]{1,15}", tolower(text), perl = TRUE)) > 0,
-                    tolower(as.character(username[grep("^rt @[a-z0-9_]{1,15}", tolower(username), perl = TRUE)])),
-                    tweets0$username))
-
-
+users0 <- NULL
 users0 <- users
 
 users0$N.Seguidores <- users0$public_metrics$followers_count
@@ -189,7 +239,7 @@ colnames(users0) <- c("label","user_name","descrição","N.seguidores")
 
 net.tidy2$label <- tolower(net.tidy2$label)
 
-w <- left_join(net.tidy2,users0,by="label")
+w <- unique(left_join(net.tidy2,users0,by="label"))
 
 
 
@@ -225,68 +275,39 @@ net.tidy %>%
 
 set.seed(123)
 
-net.tidy %>%
+g <- net.tidy %>%
   activate(nodes) %>%
   mutate(PageRank = centrality_pagerank()) %>%
   mutate(community = as.factor(group_infomap())) %>%
   ggraph(layout = l) +
   
-  labs(title = "#educaçãofinanceira") +
+  labs(title = "financeiro") +
   geom_edge_arc(alpha=.6,edge_width = 0.01,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
   
   geom_edge_link(width = 1, colour = "lightgray") +
   geom_node_point(aes(colour = community,size=PageRank)) +
   
-  geom_node_text(aes(label = label,size=.3*PageRank), colour = "#000000",repel=FALSE,
+  geom_node_text(aes(label = label,size=.04), colour = "#000000",repel=TRUE,
                  family = "serif",fontface = "bold") +
-  scale_size(range = c(0, 40)) + 
+  scale_size(range = c(0, 20)) + 
   
   theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
-  theme(legend.position = "none")
+  theme(legend.position = "none") 
 
-
-
+g
 
 
 #############################################################################################
 
-### creating the retweetnetwork based on the sender-receiver df and the node attributes (troll/non-troll)
-rts.g <- graph.data.frame(rts.df, directed=T);
+# Exportar Gráfico 
+
+# Defina o nome do arquivo de saída
+nome_do_arquivo <- "C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\financeiro.png"
 
 
-### removing self-ties
-rts.g <-simplify(rts.g, remove.loops = T, remove.multiple = F)
+ggsave(plot = g, nome_do_arquivo,
+       width = 14, height = 8.5, dpi = 600, units = "in",type="cairo")
 
-rts.g <-simplify(rts.g)
-
-
-
-# Cálculo Page Rank
-
-rts.g$pr <- rts.g %>%
-  page.rank(directed = TRUE) %>%
-  use_series("vector") %>%
-  #  sort(decreasing = TRUE) %>%
-  as.matrix
-
-g<-data.frame(user_username=V(rts.g)$name,page_rank=rts.g$pr)
-t2 <- select(tweets,user_username,user_name,user_description,user_followers_count)
-
-
-w<-right_join(g,t2,by="user_username")
-
-w <- distinct(w)
-
-
-
-#exporting the rts.g graph object as a graphml file 
-write.graph(rts.g, file="rts.graphml", format="graphml")
-write.csv(rts.df,"rts_df.csv", row.names = FALSE)
-
-
-#exporting Windowns
-write.graph(rts.f, file="C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts.graphml", format="graphml")
-write.csv(rts.df,"C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\rts_df.csv", row.names = FALSE)
 
 
 
