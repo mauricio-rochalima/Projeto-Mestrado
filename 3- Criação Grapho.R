@@ -10,7 +10,7 @@
 tweets <- Ttweets
 
 dados_filtrados <- tweets %>%
-  filter(grepl("financeiro", text, ignore.case = TRUE))
+  filter(grepl("banco", text, ignore.case = TRUE))
 
 #Ttweets <- tweets
 
@@ -23,7 +23,7 @@ tweets <- dados_filtrados
 # Exclusão de Perfis
 
 tweets <- tweets %>% 
-  filter((label != "zehdeabreu"))
+  filter((label != "hojediadevasco"))
 
 
 
@@ -273,6 +273,21 @@ net.tidy %>%
 
 # Clusters
 
+
+# Escolha layout
+#l="nicely"
+#l="sphere" #um dos melhores
+#l="circlepack"
+#l= "layout fruchterman reingold"
+#l= layout.fruchterman.reingold(net.tidy)
+#l= "fr" #melhor opção
+#l="kk"
+#l="circle"
+#l=layout_randomly(net.tidy)
+#l="lgl"
+
+
+
 set.seed(123)
 
 g <- net.tidy %>%
@@ -281,13 +296,13 @@ g <- net.tidy %>%
   mutate(community = as.factor(group_infomap())) %>%
   ggraph(layout = l) +
   
-  labs(title = "financeiro") +
-  geom_edge_arc(alpha=.6,edge_width = 0.01,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
+  labs(title = "ação") +
+  geom_edge_arc(alpha=.6,edge_width = 0.015,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
   
   geom_edge_link(width = 1, colour = "lightgray") +
-  geom_node_point(aes(colour = community,size=PageRank)) +
+  geom_node_point(aes(colour = community,size=1.2*PageRank)) +
   
-  geom_node_text(aes(label = label,size=.04), colour = "#000000",repel=TRUE,
+  geom_node_text(aes(label = label,size=.0033), colour = "#000000",repel=TRUE,
                  family = "serif",fontface = "bold") +
   scale_size(range = c(0, 20)) + 
   
@@ -302,11 +317,12 @@ g
 # Exportar Gráfico 
 
 # Defina o nome do arquivo de saída
-nome_do_arquivo <- "C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\financeiro.png"
+nome_do_arquivo <- "C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\Gráficos\\teste.png"
 
 
 ggsave(plot = g, nome_do_arquivo,
        width = 14, height = 8.5, dpi = 600, units = "in",type="cairo")
+
 
 
 

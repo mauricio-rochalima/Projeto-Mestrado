@@ -17,9 +17,10 @@ write_sheet(rts.df,ss= ss,sheet = "Matrix")
 
 write_sheet(tweets2,ss= ss,sheet = "tweets")
 
+w <- unique(w)
+
 
 write_sheet(w,ss= ss,sheet = "Metricas")
-
 
 
 
