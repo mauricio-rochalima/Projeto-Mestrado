@@ -5,54 +5,26 @@ library(googlesheets4)
 library(googledrive)
 library(tidytext)  
 
-tweets %>%
-  mutate(data_publicacao = lubridate::as_date(created_at)) %>%
-  ggplot() +
-  geom_bar(aes(x=data_publicacao)) +
-  theme_light() +
-  labs(
-    x=NULL,
-    y="Número de tweets"
-  )
-
-seu_dataframe <- hashtags2
 
 
-seu_dataframe <- seu_dataframe %>%
-  mutate(palavras = strsplit(Hashtags, " "))
+tabela_A <- tweets %>%
+  select(`Hashtags in Tweet`) %>%
+  rename(Hashtags = `Hashtags in Tweet`)
 
-seu_dataframe <- seu_dataframe %>%
+
+
+tabela_A <- tabela_A %>%
+  mutate(palavras = strsplit(Hashtags, " ")) %>%
+  unnest(palavras)
+
+
+tabela_A <- tabela_A %>%
   unnest_tokens(palavra, palavras) %>%
   filter(palavra != "NA")
 
 
-tabela_A %>%
-  count(values, sort = TRUE) %>%
-  head(15) %>%
-  ggplot(aes(x = reorder(values, n), y = n)) +
-  geom_bar(stat = "identity") +
-  labs(x = "Palavra", y = "Frequência") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotação das etiquetas no eixo x para melhor legibilidade
-
 tabela_frequencia <- tabela_A %>%
-  count(values, sort = TRUE)
-
-
-tabela_A <- stack(hashtags2)
-
-tabela_A <- na.omit(tabela_A)
-
-tabela_A$ind <- NULL
-
-tabela_A %>% filter %>% tabelaA$values != ""
-
-tabela_A <- tabela_A %>% filter(values!="")
-
-#####################################################################################################################
-
-
-tabela_frequencia <- tabela_A %>%
-  count(values, sort = TRUE) %>%
+  count(palavra, sort = TRUE) %>%
   head(40)
 
 #####################################################################################################################
@@ -83,7 +55,7 @@ tabela_frequencia <- read_sheet(ss = sheet_id, sheet = sheet_name)
 #####################################################################################################################
 
 
-p <- ggplot(tabela_frequencia,aes(x= reorder(values,n),n)) + geom_bar(stat ="identity",fill="#457B9D",width = .6) +
+p <- ggplot(tabela_frequencia,aes(x= reorder(palavra,n),n)) + geom_bar(stat ="identity",fill="#457B9D",width = .6) +
   coord_flip() +
   geom_text(size = 4, mapping = aes(label = n),hjust=-.2) +
   theme_minimal(base_size = 20) 
@@ -95,7 +67,7 @@ p <- p + theme(
 
 
 p <- p + ylab("") + xlab("")
-p <- p + ggtitle("20 # hashtags mais frequentes")
+p <- p + ggtitle("# co-hashtags mais frequentes")
 
 p <- p + theme(panel.grid = element_blank())
 

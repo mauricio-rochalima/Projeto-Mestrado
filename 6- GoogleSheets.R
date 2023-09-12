@@ -19,7 +19,7 @@ write_sheet(tweets2,ss= ss,sheet = "tweets")
 w <- unique(w)
 
 
-write_sheet(tabela_frequencia,ss= ss,sheet = "Metricas")
+write_sheet(w,ss= ss,sheet = "Metricas")
 
 
 
