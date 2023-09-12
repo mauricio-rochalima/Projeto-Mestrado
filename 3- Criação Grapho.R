@@ -1,7 +1,18 @@
 #library("dplyr") #for data manipulation
 #library("igraph") # for social network analysis
 
+###############################################################################################################
 
+# Importar planilha com os vértices
+
+
+sheet_id <- "https://docs.google.com/spreadsheets/d/1Y0SAbErLuqFPaTbMi22QTXNpJ4llTQ_YCyG2_Igrhw0/edit?usp=sharing"
+sheet_name <- "nodes"
+
+rts.df <- read_sheet(ss = sheet_id, sheet = sheet_name)
+
+colnames(rts.df) <- c("rt.sender","rt.receiver")
+ 
 
 ###############################################################################################################
 
@@ -43,17 +54,6 @@ tweets <- tweets %>%
   anti_join(Contas_excluidas, by = "label")
 
 #######################################################
-
-
-
-
-
-
-
-
-
-
-
 
 
 tweets0 <- tweets
@@ -110,6 +110,7 @@ destination <- rts.df %>% distinct(rt.receiver) %>% rename(label=rt.receiver)
 # Criação da Tabela de Nós (Atores), incluindo chave primária para identificação dos nós
 nodes <- full_join(sources, destination,by="label")
 nodes <- full_join(sources, destination,by="label") %>% mutate(id = 1:nrow(nodes)) %>% select(id,everything())
+
 
 
 # Criação da Tabela de Arestas
@@ -241,6 +242,28 @@ net.tidy2$label <- tolower(net.tidy2$label)
 
 w <- unique(left_join(net.tidy2,users0,by="label"))
 
+# NodeXL
+
+w <- select(w,id,label,user_name,descrição,N.seguidores,PageRank,PageRank_NodeXL,Betweenness,Betweenness_NodeXL,Authority)
+
+
+
+
+#############################################################################################
+
+# NodeXL
+
+users0 <- select(vertices,Vertex,Name,Description,Followers,PageRank,Betweenness.Centrality)
+
+
+colnames(users0)
+
+colnames(users0) <- c("label","user_name","descrição","N.seguidores","PageRank_NodeXL","Betweenness_NodeXL")
+
+
+
+
+
 
 
 #############################################################################################
@@ -296,15 +319,15 @@ g <- net.tidy %>%
   mutate(community = as.factor(group_infomap())) %>%
   ggraph(layout = l) +
   
-  labs(title = "ação") +
+  labs(title = "Educação Financeira") +
   geom_edge_arc(alpha=.6,edge_width = 0.015,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
   
   geom_edge_link(width = 1, colour = "lightgray") +
   geom_node_point(aes(colour = community,size=1.2*PageRank)) +
   
-  geom_node_text(aes(label = label,size=.0033), colour = "#000000",repel=TRUE,
+  geom_node_text(aes(label = label,size=.2*PageRank), colour = "#000000",repel=TRUE,
                  family = "serif",fontface = "bold") +
-  scale_size(range = c(0, 20)) + 
+  scale_size(range = c(0, 15)) + 
   
   theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
   theme(legend.position = "none") 
@@ -322,7 +345,6 @@ nome_do_arquivo <- "C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\Gráficos\\te
 
 ggsave(plot = g, nome_do_arquivo,
        width = 14, height = 8.5, dpi = 600, units = "in",type="cairo")
-
 
 
 

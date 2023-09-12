@@ -4,7 +4,6 @@
 #library(googledrive)
 
 
-drive_auth()
 
 ss <- "https://docs.google.com/spreadsheets/d/1QdUc9dMyGZYqakLvS4JoKMG4USslhPwJUNfH0mhITig/edit?usp=sharing"
 
@@ -20,13 +19,20 @@ write_sheet(tweets2,ss= ss,sheet = "tweets")
 w <- unique(w)
 
 
-write_sheet(w,ss= ss,sheet = "Metricas")
+write_sheet(tabela_frequencia,ss= ss,sheet = "Metricas")
 
 
 
 #Planilha para o caso de usuário específico
 tweets3 <- select(tweets_users,text,created_at)
 write_sheet(tweets3,ss= ss,sheet = "usuario_especifico")
+
+
+
+
+tabela_A <- stack(tabela)
+
+
 
 
 # Windowns

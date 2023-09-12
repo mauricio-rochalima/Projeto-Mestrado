@@ -50,6 +50,14 @@ tabela_A <- tabela_A %>% filter(values!="")
 
 #####################################################################################################################
 
+
+tabela_frequencia <- tabela_A %>%
+  count(values, sort = TRUE) %>%
+  head(40)
+
+#####################################################################################################################
+
+
 # Exportação / Importação da Tabela com as # Hashtags
 
 # Exportação
@@ -58,7 +66,7 @@ sheet_id <- "https://docs.google.com/spreadsheets/d/1QdUc9dMyGZYqakLvS4JoKMG4USs
 sheet_name <- "Hashtags"
 
 
-write_sheet(tabela_A,ss= sheet_id,sheet = sheet_name)
+write_sheet(tabela_frequencia,ss= sheet_id,sheet = sheet_name)
 
 
 
@@ -69,26 +77,10 @@ write_sheet(tabela_A,ss= sheet_id,sheet = sheet_name)
 # Importação
 
 
-
-library(googlesheets4)
-library(googledrive)
-
-
-sheet_id <- "https://docs.google.com/spreadsheets/d/1QdUc9dMyGZYqakLvS4JoKMG4USslhPwJUNfH0mhITig/edit?usp=sharing"
-sheet_name <- "import"
-df <- read_sheet(ss = sheet_id, sheet = sheet_name)
-
-
-
-
-
+tabela_frequencia <- read_sheet(ss = sheet_id, sheet = sheet_name)
 
 
 #####################################################################################################################
-
-tabela_frequencia <- tabela_A %>%
-  count(values, sort = TRUE) %>%
-  head(20)
 
 
 p <- ggplot(tabela_frequencia,aes(x= reorder(values,n),n)) + geom_bar(stat ="identity",fill="#457B9D",width = .6) +
