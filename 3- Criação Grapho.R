@@ -1,7 +1,8 @@
-#library("dplyr") #for data manipulation
-#library("igraph") # for social network analysis
-#library("ggraph") # 
-
+library("dplyr") #for data manipulation
+library("igraph") # for social network analysis
+library("ggraph") # 
+library(googlesheets4)
+library(googledrive)
 
 ###############################################################################################################
 
@@ -254,6 +255,7 @@ w <- unique(left_join(net.tidy2,users0,by="label"))
 
 w <- select(w,id,label,user_name,descrição,N.seguidores,PageRank)
 
+write_sheet(w,ss= ss,sheet = "Metricas")
 
 
 
