@@ -1,5 +1,7 @@
 #library("dplyr") #for data manipulation
 #library("igraph") # for social network analysis
+#library("ggraph") # 
+
 
 ###############################################################################################################
 
@@ -13,7 +15,7 @@ rts.df <- read_sheet(ss = sheet_id, sheet = sheet_name)
 
 colnames(rts.df) <- c("rt.sender","rt.receiver")
  
-
+tweets <- X_investimentos
 ###############################################################################################################
 
 # Filtrar tweets com determinadas palavras-chave
@@ -70,18 +72,21 @@ classified_tweets <- tweets %>%
 
 # Excluir da tabela os tweets
 
-tweets <- filter(classified_tweets,tweet_category!="tweet")
+tweets <- filter(tweets,Relationship!="Tweet")
 
-tweets$label <- tolower(tweets$user_username)
+
 
 ##################################################
 
 #selecting only the retweets
-rts <- grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$text), perl=T, value=T)
+
+tweets$label <- tolower(tweets$user_username)
+
+rts <- grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$Tweet), perl=T, value=T)
 
 
 # extracting handle names for the senders (those who retweet)
-rt.sender <- tolower(as.character(tweets$user_username[grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$text), perl=T)]))
+rt.sender <- tolower(as.character(tweets$`Vertex 2`[grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$Tweet), perl=T)]))
 
 # extracting handle names for the recievers (those who are being retweeted)
 rt.receiver<- tolower(regmatches(rts, regexpr("@(?U).*:", rts)))
@@ -225,13 +230,16 @@ net.tidy2 <- as.data.frame(net.tidy)
 
 # Separação das colunas de interesse da tabela users
 
-users0 <- NULL
-users0 <- users
+users0 <- select(vertices,Vertex,Name,Description,Followers)
 
-users0$N.Seguidores <- users0$public_metrics$followers_count
 
-users0 <- select(users0,username,name,description,N.Seguidores)
-users0$username <- tolower(users0$username)
+
+#users0 <- select(tweets,label,user_name,user_description,user_followers_count)
+
+#users0$N.Seguidores <- users0$public_metrics$followers_count
+
+#users0 <- select(users0,username,name,description,N.Seguidores)
+#users0$username <- tolower(users0$username)
 
 
 colnames(users0) <- c("label","user_name","descrição","N.seguidores")
@@ -244,7 +252,7 @@ w <- unique(left_join(net.tidy2,users0,by="label"))
 
 # NodeXL
 
-w <- select(w,id,label,user_name,descrição,N.seguidores,PageRank,PageRank_NodeXL,Betweenness,Betweenness_NodeXL,Authority)
+w <- select(w,id,label,user_name,descrição,N.seguidores,PageRank)
 
 
 
@@ -303,7 +311,7 @@ net.tidy %>%
 #l="circlepack"
 #l= "layout fruchterman reingold"
 #l= layout.fruchterman.reingold(net.tidy)
-#l= "fr" #melhor opção
+l= "fr" #melhor opção
 #l="kk"
 #l="circle"
 #l=layout_randomly(net.tidy)
@@ -319,13 +327,13 @@ g <- net.tidy %>%
   mutate(community = as.factor(group_infomap())) %>%
   ggraph(layout = l) +
   
-  labs(title = "Educação Financeira") +
+  labs(title = "#investimentos") +
   geom_edge_arc(alpha=.6,edge_width = 0.015,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
   
   geom_edge_link(width = 1, colour = "lightgray") +
-  geom_node_point(aes(colour = community,size=1.2*PageRank)) +
+  geom_node_point(aes(colour = community,size=1.5*PageRank)) +
   
-  geom_node_text(aes(label = label,size=.2*PageRank), colour = "#000000",repel=TRUE,
+  geom_node_text(aes(label = label,size=1.1*PageRank), colour = "#000000",repel=TRUE,
                  family = "serif",fontface = "bold") +
   scale_size(range = c(0, 15)) + 
   
