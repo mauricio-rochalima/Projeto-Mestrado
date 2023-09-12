@@ -255,6 +255,10 @@ w <- unique(left_join(net.tidy2,users0,by="label"))
 
 w <- select(w,id,label,user_name,descrição,N.seguidores,PageRank)
 
+# Exportação da tabela dos influenciadores
+
+ss <- "https://docs.google.com/spreadsheets/d/1QdUc9dMyGZYqakLvS4JoKMG4USslhPwJUNfH0mhITig/edit?usp=sharing"
+
 write_sheet(w,ss= ss,sheet = "Metricas")
 
 
