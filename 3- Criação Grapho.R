@@ -16,7 +16,7 @@ rts.df <- read_sheet(ss = sheet_id, sheet = sheet_name)
 
 colnames(rts.df) <- c("rt.sender","rt.receiver")
  
-tweets <- X_investimentos
+
 ###############################################################################################################
 
 # Filtrar tweets com determinadas palavras-chave
@@ -71,9 +71,17 @@ classified_tweets <- tweets %>%
     TRUE ~ "tweet"                                  # Tweet
   ))
 
-# Excluir da tabela os tweets
+# Excluir da tabela os tweets NodeXL
 
-tweets <- filter(tweets,Relationship!="Tweet")
+edges <- read_excel("C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/4- #EducaçãoFinanceira/NodeXLGraph - EducFin.xlsx", 
+                                       sheet = "Edges", skip = 1)
+
+
+tweets <- edges
+
+
+
+tweets <- filter(tweets,tweets$Relationship!="Tweet")
 
 
 
@@ -81,7 +89,7 @@ tweets <- filter(tweets,Relationship!="Tweet")
 
 #selecting only the retweets
 
-tweets$label <- tolower(tweets$user_username)
+tweets$label <- tolower(tweets$`Vertex 1`)
 
 rts <- grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$Tweet), perl=T, value=T)
 
@@ -230,6 +238,16 @@ net.tidy2 <- as.data.frame(net.tidy)
 
 
 # Separação das colunas de interesse da tabela users
+
+# Importação da tabela Vertices do NodeXL
+library(readxl)
+
+library(readxl)
+vertices <- read_excel("C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/4- #EducaçãoFinanceira/NodeXLGraph - EducFin.xlsx", 
+                    sheet = "Vertices", skip = 1)
+
+
+
 
 users0 <- select(vertices,Vertex,Name,Description,Followers)
 
