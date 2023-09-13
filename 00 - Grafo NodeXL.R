@@ -16,15 +16,20 @@ library(dplyr)
 library(graphlayouts)
 library(ggplot2)
 library(snahelper)
-library(smglr)
+
 library(miniCRAN)
 library(magrittr)
 library(remotes)
 library(intergraph)
-library(UserNetR)
+
 library(Cairo)
 library(ggrepel)
 ###############################################################################################################
+
+# Limpeza do Enviroment
+rm(list = ls())
+
+
 
 # ImportaÇão das Tabelas
 
@@ -49,26 +54,10 @@ tweets <- filter(tweets,tweets$Relationship!="Tweet")
 
 tweets$label <- tolower(tweets$`Vertex 1`)
 
-rts <- grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$Tweet), perl=T, value=T)
-
-
-# extracting handle names for the senders (those who retweet)
-rt.sender <- tolower(as.character(tweets$`Vertex 2`[grep("^rt @[a-z0-9_]{1,15}", tolower(tweets$Tweet), perl=T)]))
-
-# extracting handle names for the recievers (those who are being retweeted)
-rt.receiver<- tolower(regmatches(rts, regexpr("@(?U).*:", rts)))
-rt.receiver <- (gsub(":", "", rt.receiver)) #removing ":"
-rt.receiver <- (gsub("@", "", rt.receiver)) #removing "@"
-
-### Registering empty entries as missing
-rt.sender[rt.sender==""] <- "<NA>"
-rt.receiver[rt.receiver==""] <- "<NA>"
-
-
-
 ### Creating a data frame from the sender-receiver objects
-rts.df <- data.frame(rt.sender, rt.receiver)
+rts.df <- tweets %>% select(`Vertex 1`,`Vertex 2`)
 
+colnames(rts.df) <- c("rt.sender","rt.receiver")
 
 ###############################################################################################################
 
@@ -182,11 +171,11 @@ g
 # Exportar Gráfico 
 
 # Defina o nome do arquivo de saída
-nome_do_arquivo <- "C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\Gráficos\\teste.png"
+#nome_do_arquivo <- "C:\\Users\\Mauricio\\Downloads\\Redes Sociais\\Gráficos\\teste.png"
 
 
-ggsave(plot = g, nome_do_arquivo,
-       width = 14, height = 8.5, dpi = 600, units = "in",type="cairo")
+#ggsave(plot = g, nome_do_arquivo,
+#       width = 14, height = 8.5, dpi = 600, units = "in",type="cairo")
 
 
 
