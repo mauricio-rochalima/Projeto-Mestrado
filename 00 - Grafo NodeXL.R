@@ -151,13 +151,14 @@ g <- net.tidy %>%
   mutate(community = as.factor(group_infomap())) %>%
   ggraph(layout = l) +
   
-  labs(title = "#investimentos") +
+  labs(title = "(educaçãofinanceira OR finançaspessoais OR #educaçãofinanceira OR #educacaofinanceira)
+") +
   geom_edge_arc(alpha=.6,edge_width = 0.015,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
   
   geom_edge_link(width = 1, colour = "lightgray") +
-  geom_node_point(aes(colour = community,size=1.5*PageRank)) +
+  geom_node_point(aes(colour = community,size=3*PageRank)) +
   
-  geom_node_text(aes(label = label,size=1.1*PageRank), colour = "#000000",repel=TRUE,
+  geom_node_text(aes(label = label,size=2*PageRank), colour = "#000000",repel=TRUE,
                  family = "serif",fontface = "bold") +
   scale_size(range = c(0, 15)) + 
   
