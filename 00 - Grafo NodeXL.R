@@ -124,7 +124,7 @@ w <- w %>%
   arrange(desc(PageRank))   %>%
   mutate(N.seguidores = format(N.seguidores, big.mark = "."))
 
-
+colnames(w) <- c("User_Name","Usuário","Descrição","PageRank","N. Seguidores")
 
 ###############################################################################################################
 # Exportação da tabela dos influenciadores
