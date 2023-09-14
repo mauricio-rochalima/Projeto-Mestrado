@@ -98,7 +98,8 @@ net.tidy <- tbl_graph(
 
 net.tidy <- net.tidy %>%
   activate(nodes) %>%
-  mutate(PageRank = centrality_pagerank()) %>%
+  mutate(PageRank = centrality_pagerank())
+# %>%
 #  mutate(Betweenness = centrality_betweenness()) %>%
 #  mutate(Authority = centrality_authority()) %>%
 #  mutate(In_Degree = centrality_degree(mode = "in"))
@@ -116,6 +117,14 @@ colnames(users0) <- c("label","user_name","descrição","N.seguidores")
 net.tidy2$label <- tolower(net.tidy2$label)
 
 w <- unique(left_join(net.tidy2,users0,by="label"))
+
+
+w <- w %>%
+  select(label, user_name, descrição, PageRank, N.seguidores) %>%
+  arrange(desc(PageRank))   %>%
+  mutate(N.seguidores = format(N.seguidores, big.mark = "."))
+
+
 
 ###############################################################################################################
 # Exportação da tabela dos influenciadores
