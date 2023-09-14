@@ -107,17 +107,12 @@ g <- ggraph(DHHS2,  layout = 'lgl') +
   geom_node_point(color="orange", aes(size = Page_Rank)) +     
   geom_node_text(aes(label = name), size=degscale.label, color="black", repel=T) +
   
-  
   scale_fill_gradient(low = "white", high = "steelblue") +
   scale_size(range = c(0, 20)) + 
-  theme_graph(foreground = 'steelblue', fg_text_colour = 'white') + 
+  
   theme_void()
 
 
 g
-
-
-
-
 
 

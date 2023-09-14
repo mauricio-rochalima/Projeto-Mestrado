@@ -83,7 +83,7 @@ p <-  p + theme(axis.text.y = element_text(size = 12))
 p <-  p + theme(axis.text.y = element_text(face = "italic"))
 
 p <-  p  + scale_y_continuous(breaks = NULL) + 
-  theme(plot.title = element_text(size = 25, hjust = 0.5, margin = margin(b = 20)))  # Aumentar a distância entre o título e o gráfico
+  theme(plot.title = element_text(size = 22, hjust = 0.5, margin = margin(b = 20)))  # Aumentar a distância entre o título e o gráfico
 
 
 p <- p + scale_x_discrete(labels = function(x) paste0("#", x))  
@@ -91,6 +91,16 @@ p <- p + scale_x_discrete(labels = function(x) paste0("#", x))
 p
 
 
+#####################################################################################################################
+# Exportar Gráfico
+
+
+# Defina o nome do arquivo de saída
+nome_do_arquivo <- '/Users/mauriciofernandes/Dropbox/Projeto Mestrado/NodeXL/4- EducaçãoFinanceira/Freq_#s.pdf'
+
+
+ggsave(plot = p, nome_do_arquivo,
+       width = 14, height = 8.5, dpi = 600, units = "in")
 
 
 
