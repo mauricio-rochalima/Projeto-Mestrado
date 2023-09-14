@@ -99,9 +99,9 @@ net.tidy <- tbl_graph(
 net.tidy <- net.tidy %>%
   activate(nodes) %>%
   mutate(PageRank = centrality_pagerank()) %>%
-  mutate(Betweenness = centrality_betweenness()) %>%
-  mutate(Authority = centrality_authority()) %>%
-  mutate(In_Degree = centrality_degree(mode = "in"))
+#  mutate(Betweenness = centrality_betweenness()) %>%
+#  mutate(Authority = centrality_authority()) %>%
+#  mutate(In_Degree = centrality_degree(mode = "in"))
 
 
 # Criação da Tabela com os Nós, métricas e informações das contas
