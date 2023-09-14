@@ -118,13 +118,17 @@ net.tidy2$label <- tolower(net.tidy2$label)
 
 w <- unique(left_join(net.tidy2,users0,by="label"))
 
-
 w <- w %>%
   select(label, user_name, descrição, PageRank, N.seguidores) %>%
   arrange(desc(PageRank))   %>%
-  mutate(N.seguidores = format(N.seguidores, big.mark = "."))
+#  mutate(N.seguidores = as.numeric(N.seguidores)) %>%
+#  filter(N.seguidores > 1000)    %>%
+  mutate(N.seguidores = format(N.seguidores, big.mark = ".")) 
+
 
 colnames(w) <- c("User_Name","Usuário","Descrição","PageRank","N. Seguidores")
+
+
 
 ###############################################################################################################
 # Exportação da tabela dos influenciadores
