@@ -33,11 +33,16 @@ rm(list = ls())
 
 # ImportaÇão das Tabelas
 
-#Caminho
+# Caminho
 
 c <- '/Users/mauriciofernandes/Dropbox/Projeto Mestrado/NodeXL/4- EducaçãoFinanceira/NodeXLGraph - EducFin.xlsx'
-
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/4- #EducaçãoFinanceira/NodeXLGraph - EducFin.xlsx'
+
+# Caminho Co-Hashtags_01
+
+c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/5- Co-Hashtags01/Co-Hashtags01.xlsx'
+
+
   
 edges <- read_excel(c,sheet = "Edges", skip = 1)
 vertices <- read_excel(c, sheet = "Vertices", skip = 1)
