@@ -150,7 +150,7 @@ colnames(w) <- c("User_Name","Usuário","Descrição","PageRank","N. Seguidores"
 
 ss <- "https://docs.google.com/spreadsheets/d/195xTppGtYSfnRmom-LM84PJ7AGdDYE3X9222hfcxqL8/edit?usp=sharing"
 
-write_sheet(w,ss= ss,sheet = "Metricas")
+write_sheet(w,ss= ss,sheet = "BD")
 
 
 ###############################################################################################################
