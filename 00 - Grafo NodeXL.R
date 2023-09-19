@@ -40,7 +40,7 @@ c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/4- #EducaçãoFinanceira
 
 # Caminho Co-Hashtags_01
 
-c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/5- Co-Hashtags01/Co-Hashtags01.xlsx'
+c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Investimentos.xlsx'
 
 
   
@@ -120,11 +120,18 @@ net.tidy2 <- as.data.frame(net.tidy)
 users0 <- select(vertices,Vertex,Name,Description,Followers)
 
 
+
 colnames(users0) <- c("label","user_name","descrição","N.seguidores")
 
 net.tidy2$label <- tolower(net.tidy2$label)
 
 w <- unique(left_join(net.tidy2,users0,by="label"))
+
+
+# Filtro Usuários com mais de 1000 seguidores
+
+w <- w %>% filter(N.seguidores >= 1000)
+
 
 w <- w %>%
   select(label, user_name, descrição, PageRank, N.seguidores) %>%
@@ -141,7 +148,7 @@ colnames(w) <- c("User_Name","Usuário","Descrição","PageRank","N. Seguidores"
 ###############################################################################################################
 # Exportação da tabela dos influenciadores
 
-ss <- "https://docs.google.com/spreadsheets/d/1QdUc9dMyGZYqakLvS4JoKMG4USslhPwJUNfH0mhITig/edit?usp=sharing"
+ss <- "https://docs.google.com/spreadsheets/d/195xTppGtYSfnRmom-LM84PJ7AGdDYE3X9222hfcxqL8/edit?usp=sharing"
 
 write_sheet(w,ss= ss,sheet = "Metricas")
 
@@ -198,12 +205,6 @@ g
 
 #ggsave(plot = g, nome_do_arquivo,
 #       width = 14, height = 8.5, dpi = 600, units = "in",type="cairo")
-
-
-
-
-
-
 
 
 
