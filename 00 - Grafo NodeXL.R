@@ -38,9 +38,12 @@ rm(list = ls())
 c <- '/Users/mauriciofernandes/Dropbox/Projeto Mestrado/NodeXL/4- EducaçãoFinanceira/NodeXLGraph - EducFin.xlsx'
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/4- #EducaçãoFinanceira/NodeXLGraph - EducFin.xlsx'
 
+
 # Caminho Co-Hashtags_01
 
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Investimentos.xlsx'
+c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/finanças.xlsx'
+
 
 
   
@@ -143,12 +146,14 @@ w <- w %>%
 
 colnames(w) <- c("User_Name","Usuário","Descrição","PageRank","N. Seguidores")
 
+w <- w %>% select("Usuário","User_Name","Descrição","PageRank","N. Seguidores")
+
 
 
 ###############################################################################################################
 # Exportação da tabela dos influenciadores
 
-ss <- "https://docs.google.com/spreadsheets/d/195xTppGtYSfnRmom-LM84PJ7AGdDYE3X9222hfcxqL8/edit?usp=sharing"
+ss <- "https://docs.google.com/spreadsheets/d/1BgRDUkup0_VjXCuL3Z0WoqQ4a_LAXpfoqzFa5cw-nMw/edit?usp=sharing"
 
 write_sheet(w,ss= ss,sheet = "BD")
 
