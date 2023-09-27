@@ -44,6 +44,7 @@ c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/4- #EducaçãoFinanceira
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Investimentos.xlsx'
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/finanças.xlsx'
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/economia.xlsx'
+c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/liberdadefinanceira.xlsx'
 
 
   
@@ -155,7 +156,7 @@ w <- w %>% select("Usuário","User_Name","Descrição","PageRank","N. Seguidores
 ###############################################################################################################
 # Exportação da tabela dos influenciadores
 
-ss <- "https://docs.google.com/spreadsheets/d/1mhqpUyLtKBdWTC5JG2S9aEHqEqNRR9D-pgqhzqhar54/edit?usp=sharing"
+ss <- "https://docs.google.com/spreadsheets/d/1ZRGZ80Z1foxygluk-5koOq7J3xoO1-nU6uQHLy5mXpw/edit?usp=sharing"
 
 write_sheet(w,ss= ss,sheet = "BD")
 
@@ -186,7 +187,7 @@ g <- net.tidy %>%
   mutate(community = as.factor(group_infomap())) %>%
   ggraph(layout = l) +
   
-  labs(title = "(#economia OR #dinheiro)
+  labs(title = "(#liberdadefinanceira)
 ") +
   geom_edge_arc(alpha=.6,edge_width = 0.015,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
   
