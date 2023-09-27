@@ -207,7 +207,7 @@ g
 # Exportar Gráfico 
 
 # Defina o nome do arquivo de saída
-nome_do_arquivo <- "C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Gráficos/financas.png"
+nome_do_arquivo <- "C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Gráficos/economia.png"
 
 
 ggsave(plot = g, nome_do_arquivo,
