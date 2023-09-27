@@ -58,6 +58,8 @@ vertices <- read_excel(c, sheet = "Vertices", skip = 1)
 
 tweets <- edges
 tweets <- filter(tweets,tweets$Relationship!="Tweet")
+tweets <- filter(tweets,tweets$Language=="pt")
+
 
 ###############################################################################################################
 # Criação da matriz com as arestas
@@ -191,7 +193,7 @@ g <- net.tidy %>%
   geom_edge_link(width = 1, colour = "lightgray") +
   geom_node_point(aes(colour = community,size=6*PageRank)) +
   
-  geom_node_text(aes(label = label,size=.8*PageRank), colour = "#000000",repel=TRUE,
+  geom_node_text(aes(label = label,size=2*PageRank), colour = "#000000",repel=TRUE,
                  family = "serif",fontface = "bold") +
   scale_size(range = c(0, 15)) + 
   
