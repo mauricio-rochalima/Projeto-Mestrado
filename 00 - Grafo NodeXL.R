@@ -49,13 +49,42 @@ c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/empreende
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/rendaextra.xlsx'
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/prosperidade.xlsx'
 
+#############################################################################################################################
 
-  
+# Limpeza do Enviroment
+rm(list = ls())
+
+
+
+# Importação
+
+sheet_id <- 'https://docs.google.com/spreadsheets/d/1_-O2K_nVAms9jln6WhpZ3Ew-Ej4VxbEZg4F4J6zi7K0/edit?usp=sharing'
+
+Tabelas_caminhos <- read_sheet(ss = sheet_id, sheet = 'Export')
+
+
+#############################################################################################################################
+
+#Indique a Numeração da Tabela
+
+Tabela <- 8
+
+c <-  toString(Tabelas_caminhos[Tabela,3])
+ss <- toString(Tabelas_caminhos[Tabela,2])
+
+#Hashtags <- toString(Tabelas_caminhos[Tabela,6])
+
+
+nome_do_arquivo <- toString(Tabelas_caminhos[Tabela,5])
+
+#############################################################################################################################
+
+
 edges <- read_excel(c,sheet = "Edges", skip = 1)
 vertices <- read_excel(c, sheet = "Vertices", skip = 1)
 
-
-
+Hashtag read_excel(c, sheet = "Overall Metrics", skip = 1)
+Hashtag <- toString(Hashtag[30,2])
 
 ###############################################################################################################
 # Excluir da tabela os tweets NodeXL
@@ -159,8 +188,6 @@ w <- w %>% select("Usuário","User_Name","Descrição","PageRank","N. Seguidores
 ###############################################################################################################
 # Exportação da tabela dos influenciadores
 
-ss <- "https://docs.google.com/spreadsheets/d/1jgLcoNaQrD30ITPKI0Km5KvzoRHtBKecN20OufYlyn4/edit?usp=sharing"
-
 write_sheet(w,ss= ss,sheet = "BD")
 
 
@@ -190,8 +217,7 @@ g <- net.tidy %>%
   mutate(community = as.factor(group_infomap())) %>%
   ggraph(layout = l) +
   
-  labs(title = "(#prosperidade OR #prosperidadefinanceira)
-") +
+  labs(title = Hashtags) +
   geom_edge_arc(alpha=.6,edge_width = 0.015,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
   
   geom_edge_link(width = 1, colour = "lightgray") +
@@ -209,9 +235,6 @@ g
 
 ###############################################################################################################
 # Exportar Gráfico 
-
-# Defina o nome do arquivo de saída
-nome_do_arquivo <- "C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Gráficos/#rendaextra.png"
 
 
 ggsave(plot = g, nome_do_arquivo,
