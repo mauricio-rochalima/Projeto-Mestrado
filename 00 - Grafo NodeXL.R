@@ -38,7 +38,7 @@ rm(list = ls())
 
 
 
-# Importação
+# Importação da tabela com os caminhos das tabelas no Dropbox
 
 sheet_id <- 'https://docs.google.com/spreadsheets/d/1_-O2K_nVAms9jln6WhpZ3Ew-Ej4VxbEZg4F4J6zi7K0/edit?usp=sharing'
 
