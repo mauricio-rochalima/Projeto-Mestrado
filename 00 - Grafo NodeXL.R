@@ -45,6 +45,8 @@ c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Investime
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/finanças.xlsx'
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/economia.xlsx'
 c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/liberdadefinanceira.xlsx'
+c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/empreendedorismo.xlsx'
+c <- 'C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/rendaextra.xlsx'
 
 
   
@@ -156,7 +158,7 @@ w <- w %>% select("Usuário","User_Name","Descrição","PageRank","N. Seguidores
 ###############################################################################################################
 # Exportação da tabela dos influenciadores
 
-ss <- "https://docs.google.com/spreadsheets/d/1ZRGZ80Z1foxygluk-5koOq7J3xoO1-nU6uQHLy5mXpw/edit?usp=sharing"
+ss <- "https://docs.google.com/spreadsheets/d/19XyxnHRMpxIZSwhk-LilnEqmTnI4zrJCA_iSzVmdSTg/edit?usp=sharing"
 
 write_sheet(w,ss= ss,sheet = "BD")
 
@@ -187,14 +189,14 @@ g <- net.tidy %>%
   mutate(community = as.factor(group_infomap())) %>%
   ggraph(layout = l) +
   
-  labs(title = "(#liberdadefinanceira)
+  labs(title = "(#rendaextra OR #rendaextraemcasa)
 ") +
   geom_edge_arc(alpha=.6,edge_width = 0.015,edge_colour = "#A8A8A8", arrow = arrow(angle = 0, length = unit(0.1, "inches"), ends = "last", type = "closed")) +
   
   geom_edge_link(width = 1, colour = "lightgray") +
   geom_node_point(aes(colour = community,size=6*PageRank)) +
   
-  geom_node_text(aes(label = label,size=2*PageRank), colour = "#000000",repel=TRUE,
+  geom_node_text(aes(label = label,size=1.5*PageRank), colour = "#000000",repel=TRUE,
                  family = "serif",fontface = "bold") +
   scale_size(range = c(0, 15)) + 
   
@@ -208,7 +210,7 @@ g
 # Exportar Gráfico 
 
 # Defina o nome do arquivo de saída
-nome_do_arquivo <- "C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Gráficos/economia.png"
+nome_do_arquivo <- "C:/Users/Mauricio/Dropbox/Projeto Mestrado/NodeXL/6- Co-Hashtags/Gráficos/empreendemorismo.png"
 
 
 ggsave(plot = g, nome_do_arquivo,
