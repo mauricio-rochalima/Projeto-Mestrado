@@ -42,7 +42,7 @@ Tabelas_caminhos <- read_sheet(ss = sheet_id, sheet = 'Export')
 
 #Indique a Numeração da Tabela
 
-Tabela <- 9
+Tabela <- 12
 
 ss <- toString(Tabelas_caminhos[Tabela,2])
 
