@@ -31,13 +31,6 @@ rm(list = ls())
 
 
 
-#############################################################################################################################
-
-# Limpeza do Enviroment
-rm(list = ls())
-
-
-
 # Importação da tabela com os caminhos das tabelas no Dropbox
 
 sheet_id <- 'https://docs.google.com/spreadsheets/d/1_-O2K_nVAms9jln6WhpZ3Ew-Ej4VxbEZg4F4J6zi7K0/edit?usp=sharing'
@@ -49,7 +42,7 @@ Tabelas_caminhos <- read_sheet(ss = sheet_id, sheet = 'Export')
 
 #Indique a Numeração da Tabela
 
-Tabela <- 7
+Tabela <- 9
 
 ss <- toString(Tabelas_caminhos[Tabela,2])
 
@@ -63,6 +56,7 @@ nome_do_arquivo <- toString(Tabelas_caminhos[Tabela,5])
 # Versão MAC
 
 c <-  toString(Tabelas_caminhos[Tabela,4])
+nome_do_arquivo <- toString(Tabelas_caminhos[Tabela,7])
 
 
 
