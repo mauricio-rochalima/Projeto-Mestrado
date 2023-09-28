@@ -67,15 +67,23 @@ Tabelas_caminhos <- read_sheet(ss = sheet_id, sheet = 'Export')
 
 #Indique a Numeração da Tabela
 
-Tabela <- 8
+Tabela <- 7
 
-c <-  toString(Tabelas_caminhos[Tabela,3])
 ss <- toString(Tabelas_caminhos[Tabela,2])
 
+# Versão Windowns
+
+c <-  toString(Tabelas_caminhos[Tabela,3])
 #Hashtags <- toString(Tabelas_caminhos[Tabela,6])
-
-
 nome_do_arquivo <- toString(Tabelas_caminhos[Tabela,5])
+
+
+# Versão MAC
+
+c <-  toString(Tabelas_caminhos[Tabela,4])
+
+
+
 
 #############################################################################################################################
 
