@@ -91,7 +91,7 @@ c <-  toString(Tabelas_caminhos[Tabela,4])
 edges <- read_excel(c,sheet = "Edges", skip = 1)
 vertices <- read_excel(c, sheet = "Vertices", skip = 1)
 
-Hashtag read_excel(c, sheet = "Overall Metrics", skip = 1)
+Hashtag <- read_excel(c, sheet = "Overall Metrics", skip = 1)
 Hashtag <- toString(Hashtag[30,2])
 
 ###############################################################################################################
