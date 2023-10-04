@@ -100,5 +100,35 @@ BD <- BD[!duplicated(BD$User_Name), ]
 
 # Agora, 'acumulado' contém os valores únicos na coluna User_Name, mantendo o registro com o maior número de seguidores entre registros com nomes de usuário iguais
 
+#############################################################################################################################
 
+
+
+
+# Criar um loop de i=1 a 17
+for (i in 12:17) {
+  
+  if (i == 14) {
+    next  # Pular o valor 14
+  }
+  
+  
+  # Extrair o caminho da planilha a partir da Tabela_caminhos
+  ss <- toString(Tabelas_caminhos[i, 2])
+  
+  # Ler a planilha 'Influencers Selecionados'
+  import <- read_sheet(ss = ss, sheet = 'BD')
+  
+  # Adicionar os valores importados à tabela acumulada
+  BD2 <- data.frame()
+  BD2 <- anti_join(import, BD, by = "User_Name")
+  
+  # Export a planilha 'BD2'
+  write_sheet(BD2,ss= ss,sheet = "BD2")
+  
+  
+  
+  # Imprima algo para indicar que a planilha foi importada com sucesso (opcional)
+  cat("Planilha", i, "exportada com sucesso.\n")
+}
 
