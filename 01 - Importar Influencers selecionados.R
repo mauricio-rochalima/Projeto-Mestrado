@@ -34,6 +34,7 @@ for (i in 1:17) {
 
 
 
+#############################################################################################################################
 
 
 
@@ -52,4 +53,52 @@ acumulado <- acumulado[order(-acumulado$`N. Seguidores`), ]
 acumulado <- acumulado[!duplicated(acumulado$User_Name), ]
 
 # Agora, 'acumulado' contém os valores únicos na coluna User_Name, mantendo o registro com o maior número de seguidores entre registros com nomes de usuário iguais
+
+
+#############################################################################################################################
+#############################################################################################################################
+#############################################################################################################################
+#############################################################################################################################
+#############################################################################################################################
+
+
+
+# Importando a tabela BD de todas as planilhas
+
+
+BD <- data.frame()
+
+
+# Criar um loop de i=1 a 17
+for (i in 5:12) {
+  # Extrair o caminho da planilha a partir da Tabela_caminhos
+  ss <- toString(Tabelas_caminhos[i, 2])
+  
+  # Ler a planilha 'Influencers Selecionados'
+  import <- read_sheet(ss = ss, sheet = 'BD')
+  
+  # Adicionar os valores importados à tabela acumulada
+  BD <- rbind(BD, import)
+  
+  # Imprima algo para indicar que a planilha foi importada com sucesso (opcional)
+  cat("Planilha", i, "importada com sucesso.\n")
+}
+
+#############################################################################################################################
+
+
+# Suponha que 'acumulado' seja a tabela acumulada após a importação
+
+# Remover pontos da coluna N. Seguidores e converter para numérico
+BD$`N. Seguidores` <- as.numeric(gsub("\\.", "", BD$`N. Seguidores`))
+
+# Ordenar a tabela pelo número de seguidores em ordem decrescente
+BD <- BD[order(-BD$`N. Seguidores`), ]
+
+# Remover linhas duplicadas com base na coluna User_Name
+BD <- BD[!duplicated(BD$User_Name), ]
+
+# Agora, 'acumulado' contém os valores únicos na coluna User_Name, mantendo o registro com o maior número de seguidores entre registros com nomes de usuário iguais
+
+
 
