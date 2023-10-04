@@ -61,7 +61,7 @@ acumulado <- acumulado[!duplicated(acumulado$User_Name), ]
 #############################################################################################################################
 #############################################################################################################################
 
-
+f <- 11
 
 # Importando a tabela BD de todas as planilhas
 
@@ -70,7 +70,7 @@ BD <- data.frame()
 
 
 # Criar um loop de i=1 a 17
-for (i in 5:11) {
+for (i in 1:f) {
   # Extrair o caminho da planilha a partir da Tabela_caminhos
   ss <- toString(Tabelas_caminhos[i, 2])
   
@@ -106,7 +106,7 @@ BD <- BD[!duplicated(BD$User_Name), ]
 
 
 # Criar um loop de i=1 a 17
-for (i in 12:17) {
+for (i in (f+1):17) {
   
   if (i == 14) {
     next  # Pular o valor 14
