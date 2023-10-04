@@ -17,7 +17,7 @@ influencers <- data.frame()
 
 
 # Criar um loop de i=1 a 17
-for (i in 3:17) {
+for (i in 1:17) {
   # Extrair o caminho da planilha a partir da Tabela_caminhos
   ss <- toString(Tabelas_caminhos[i, 2])
   
@@ -31,4 +31,25 @@ for (i in 3:17) {
   cat("Planilha", i, "importada com sucesso.\n")
 }
 
+
+
+
+
+
+
+
+acumulado <- influencers
+
+# Suponha que 'acumulado' seja a tabela acumulada após a importação
+
+# Remover pontos da coluna N. Seguidores e converter para numérico
+acumulado$`N. Seguidores` <- as.numeric(gsub("\\.", "", acumulado$`N. Seguidores`))
+
+# Ordenar a tabela pelo número de seguidores em ordem decrescente
+acumulado <- acumulado[order(-acumulado$`N. Seguidores`), ]
+
+# Remover linhas duplicadas com base na coluna User_Name
+acumulado <- acumulado[!duplicated(acumulado$User_Name), ]
+
+# Agora, 'acumulado' contém os valores únicos na coluna User_Name, mantendo o registro com o maior número de seguidores entre registros com nomes de usuário iguais
 
