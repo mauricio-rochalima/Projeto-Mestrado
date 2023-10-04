@@ -70,7 +70,7 @@ BD <- data.frame()
 
 
 # Criar um loop de i=1 a 17
-for (i in 5:12) {
+for (i in 5:11) {
   # Extrair o caminho da planilha a partir da Tabela_caminhos
   ss <- toString(Tabelas_caminhos[i, 2])
   
@@ -121,7 +121,7 @@ for (i in 12:17) {
   
   # Adicionar os valores importados à tabela acumulada
   BD2 <- data.frame()
-  BD2 <- anti_join(import, BD, by = "User_Name")
+  BD2 <- anti_join(import,BD, by = "User_Name")
   
   # Export a planilha 'BD2'
   write_sheet(BD2,ss= ss,sheet = "BD2")
@@ -131,4 +131,5 @@ for (i in 12:17) {
   # Imprima algo para indicar que a planilha foi importada com sucesso (opcional)
   cat("Planilha", i, "exportada com sucesso.\n")
 }
+
 
