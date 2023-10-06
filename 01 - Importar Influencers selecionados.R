@@ -20,9 +20,11 @@ influencers <- data.frame()
 for (i in 1:17) {
   # Extrair o caminho da planilha a partir da Tabela_caminhos
   ss <- toString(Tabelas_caminhos[i, 2])
+  hashtag <- toString(Tabelas_caminhos[i, 6])
   
   # Ler a planilha 'Influencers Selecionados'
   import <- read_sheet(ss = ss, sheet = 'Influencers Selecionados')
+  import$hashtag <- hashtag
   
   # Adicionar os valores importados à tabela acumulada
   influencers <- rbind(influencers, import)
@@ -60,6 +62,12 @@ acumulado <- acumulado[!duplicated(acumulado$User_Name), ]
 #############################################################################################################################
 #############################################################################################################################
 #############################################################################################################################
+
+# Frequencia dos influenciadores por hashtag
+tabela_frequencia <- acumulado %>%
+  count(hashtag, sort = TRUE)
+
+
 # Exportar Tabela de Influenciadores
 
 
@@ -68,6 +76,7 @@ ss <- "https://docs.google.com/spreadsheets/d/1yTiv-OHyb_BmvdGvRrDBcKi9hZJNXH2mI
 # Export a planilha 'BD2'
 write_sheet(acumulado,ss= ss,sheet = "Influencers")
 write_sheet(BD,ss= ss,sheet = "BD")
+write_sheet(tabela_frequencia,ss= ss,sheet = "hashtag")
 
 
 #############################################################################################################################
